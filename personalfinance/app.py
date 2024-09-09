@@ -1,11 +1,9 @@
 import streamlit as st
-from data.data_loader import load_transactions
+from data.data_loader import load_transactions, save_transactions
 from ui.dashboard import display_dashboard
 
 def main():
-    st.title("Personal Finance Categorizer")
-    st.write("Welcome to the Personal Finance Categorizer Web App!")
-
+    st.set_page_config(page_title="Personal Finance App", layout="wide")
     transactions = load_transactions()
     display_dashboard(transactions)
 

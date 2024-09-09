@@ -1,3 +1,26 @@
+Current structure:
+PersonalFinanceCategorizer_WebApp/
+│
+├── personalfinance/
+│   ├── __init__.py
+│   ├── app.py
+│   ├── data/
+│   │   ├── __init__.py
+│   │   └── data_loader.py
+│   ├── utils/
+│   │   ├── __init__.py
+│   │   └── google_drive_utils.py
+│   └── ui/
+│       ├── __init__.py
+│       └── dashboard.py
+│
+├── run.py
+└── requirements.txt
+
+
+
+IDEAS BELOW THIS LINE:
+
 PersonalFinanceCategorizer_WebApp/
 │
 ├── app.py
