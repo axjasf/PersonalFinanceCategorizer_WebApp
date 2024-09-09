@@ -1,0 +1,32 @@
+# Virtual environment
+venv/
+myenv/
+*.venv/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# macOS system files
+.DS_Store
+
+# IDE-specific files (optional, but recommended)
+.vscode/
+.idea/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Environment variables file (if you use one)
+.env
+
+# Compiled Python files
+*.pyc
+
+# Logs
+*.log
+
+# Output files (if your script generates any)
+*.png
+*.jpg
+*.csv
