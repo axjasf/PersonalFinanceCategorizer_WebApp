@@ -1,0 +1,63 @@
+PersonalFinanceCategorizer_WebApp/
+│
+├── app.py
+├── config.py
+│
+├── data/
+│   ├── __init__.py
+│   ├── data_loader.py
+│   └── data_processor.py
+│
+├── banks/
+│   ├── __init__.py
+│   ├── chase.py
+│   ├── wells_fargo.py
+│   ├── apple.py
+│   └── commerzbank.py
+│
+├── utils/
+│   ├── __init__.py
+│   ├── currency_converter.py
+│   └── date_utils.py
+│
+└── ui/
+    ├── __init__.py
+    ├── dashboard.py
+    └── import_wizard.py
+
+File Descriptions:
+
+app.py:
+- Main Streamlit application
+- Orchestrates the overall flow of the application
+- Imports and uses components from other modules
+
+config.py:
+- Stores configuration variables (e.g., file paths, column names)
+
+data/data_loader.py:
+- Functions for loading the existing transactions file
+- Functions for saving updated transactions
+
+data/data_processor.py:
+- General data processing functions (e.g., adjust_field_names, quality_control)
+- Data concatenation and preparation functions
+
+banks/*.py:
+- Bank-specific processing functions
+- Each file (chase.py, wells_fargo.py, etc.) contains functions for parsing and initial processing of that bank's data
+
+utils/currency_converter.py:
+- Functions for loading exchange rates
+- Currency conversion logic
+
+utils/date_utils.py:
+- Date parsing and manipulation functions
+
+ui/dashboard.py:
+- Streamlit components for the main dashboard
+- Functions for displaying the transaction table, statistics, etc.
+
+ui/import_wizard.py:
+- Streamlit components for the import process
+- Functions for file upload, preview, and confirmation steps
