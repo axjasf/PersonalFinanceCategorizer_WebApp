@@ -30,3 +30,8 @@ __pycache__/
 *.png
 *.jpg
 *.csv
+
+# Google Drive credentials
+token.pickle
+token.json
+credentials.json
