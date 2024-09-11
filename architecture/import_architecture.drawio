@@ -1,9 +1,30 @@
-<mxfile host="app.diagrams.net" modified="2024-09-11T23:23:45.636Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" version="22.1.17" etag="iOVOVfNGayzdQMxokgq-" type="github">
+<mxfile host="app.diagrams.net" modified="2024-09-11T23:29:48.687Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" etag="imYfhf0VI_3odedUW6d5" version="22.1.17" type="github">
   <diagram name="Page-1" id="JLV0uFSh_k2bjosw7qAf">
-    <mxGraphModel>
+    <mxGraphModel dx="1034" dy="458" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="uNpmv1b55_jTAVhKI0HQ-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="uNpmv1b55_jTAVhKI0HQ-1" target="uNpmv1b55_jTAVhKI0HQ-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uNpmv1b55_jTAVhKI0HQ-1" value="Import Transaction" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uNpmv1b55_jTAVhKI0HQ-5" value="Match found" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="uNpmv1b55_jTAVhKI0HQ-2" target="uNpmv1b55_jTAVhKI0HQ-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uNpmv1b55_jTAVhKI0HQ-7" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="uNpmv1b55_jTAVhKI0HQ-2" target="uNpmv1b55_jTAVhKI0HQ-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uNpmv1b55_jTAVhKI0HQ-2" value="Check Payee Description against Payee Variants" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="40" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uNpmv1b55_jTAVhKI0HQ-4" value="Assign Payee ID to Transaction" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="470" y="40" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uNpmv1b55_jTAVhKI0HQ-6" value="Flag Payee for Review" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="180" width="120" height="60" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
