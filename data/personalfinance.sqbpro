@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="personalfinance.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="3026"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="transactions_old" custom_title="0" dock_id="1" table="4,16:maintransactions_old"/><dock_state state="000000ff00000000fd00000001000000020000000000000000fc0100000001fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000011800ffffff000000000000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="transactions_old" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="31"/><column index="2" value="85"/><column index="3" value="39"/><column index="4" value="44"/><column index="5" value="78"/><column index="6" value="56"/><column index="7" value="69"/><column index="8" value="49"/><column index="9" value="41"/><column index="10" value="132"/><column index="11" value="88"/><column index="12" value="78"/><column index="13" value="102"/><column index="14" value="55"/><column index="15" value="68"/><column index="16" value="72"/><column index="17" value="59"/><column index="18" value="83"/><column index="19" value="71"/><column index="20" value="73"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="Read.Me*">Here’s a README tailored specifically for use with DB Browser for SQLite, where the SQL code blocks are anticipated to be run using the **SQL tabs** in the interface:
+
+---
+
+# Personal Finance Database
+
+This project is designed to help you manage your personal finances by organizing transactions, accounts, payees, and categories in a structured SQLite database. This guide will walk you through the steps to set up and populate the database using **DB Browser for SQLite**.
+
+## Getting Started
+
+1. **Open DB Browser for SQLite.**
+2. **Create a new database** or open an existing one.
+3. In the **SQL tab**, you’ll execute the following SQL commands step by step to create and populate the tables.
+
+---
+
+## Step 1: Create the Core Tables
+
+### 1.1 Transactions Table
+This table stores individual transactions. It references payees, categories, and accounts.
+
+- Open the **SQL tab** in DB Browser and paste the following command to create the `transactions` table:
+
+```sql
+CREATE TABLE transactions (
+    id INTEGER PRIMARY KEY,
+    transaction_date DATE NOT NULL,
+    total_amount REAL NOT NULL,
+    payee_id INTEGER,
+    category_id INTEGER,
+    account_id INTEGER,
+    description TEXT,
+    FOREIGN KEY (payee_id) REFERENCES payees(id),
+    FOREIGN KEY (category_id) REFERENCES categories(id),
+    FOREIGN KEY (account_id) REFERENCES accounts(id)
+);
+```
+
+### 1.2 Payees Table
+This table stores unique payee names.
+
+- Paste the following SQL to create the `payees` table:
+
+```sql
+CREATE TABLE payees (
+    id INTEGER PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL
+);
+```
+
+### 1.3 Payee Mapping Table
+This table maps variations of payee names to a single standardized payee.
+
+- Paste the following SQL to create the `payee_mapping` table:
+
+```sql
+CREATE TABLE payee_mapping (
+    id INTEGER PRIMARY KEY,
+    payee_standard_id INTEGER NOT NULL,
+    payee_variant TEXT NOT NULL UNIQUE,
+    FOREIGN KEY (payee_standard_id) REFERENCES payees(id)
+);
+```
+
+### 1.4 Categories Table
+This table organizes transactions into categories.
+
+- Use the following SQL to create the `categories` table:
+
+```sql
+CREATE TABLE categories (
+    id INTEGER PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL,
+    parent_id INTEGER,
+    FOREIGN KEY (parent_id) REFERENCES categories(id)
+);
+```
+
+### 1.5 Accounts Table
+This table tracks the financial accounts (bank, credit cards) associated with transactions.
+
+- Use this SQL to create the `accounts` table:
+
+```sql
+CREATE TABLE accounts (
+    id INTEGER PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL,
+    type TEXT NOT NULL,
+    institution TEXT
+);
+```
+
+---
+
+## Step 2: Populate the Tables
+
+Once you have created the tables, you can start adding data. Follow these instructions to insert sample data into your tables.
+
+### 2.1 Insert Sample Payees
+
+- Paste the following SQL in the **SQL tab** to insert standardized payees:
+
+```sql
+INSERT INTO payees (name) VALUES ('Amazon'), ('Starbucks');
+```
+
+### 2.2 Insert Payee Variations
+
+- Use this SQL to map payee name variations to the standardized payees:
+
+```sql
+INSERT INTO payee_mapping (payee_standard_id, payee_variant) 
+VALUES (1, 'Amazon Grocery'), (1, 'Amazon.de'), (2, 'Starbucks Coffee');
+```
+
+### 2.3 Insert Sample Categories
+
+- You can categorize your transactions like this:
+
+```sql
+INSERT INTO categories (name) VALUES ('Groceries'), ('Entertainment'), ('Utilities');
+INSERT INTO categories (name, parent_id) VALUES ('Restaurants', 1); -- Restaurants as a subcategory of Groceries
+```
+
+### 2.4 Insert Sample Accounts
+
+- Add your financial accounts using the following SQL:
+
+```sql
+INSERT INTO accounts (name, type, institution) 
+VALUES ('Chase Checking', 'Checking', 'Chase'), 
+       ('Visa Credit Card', 'Credit', 'Visa');
+```
+
+---
+
+## Step 3: Example Queries
+
+Now that your database is set up and populated with sample data, you can use DB Browser’s **Execute SQL** tab to run queries.
+
+### Example: Fetch All Transactions with Standardized Payees
+
+You can use the following SQL query to retrieve transactions along with their standardized payees:
+
+```sql
+SELECT 
+    t.transaction_date, 
+    t.total_amount, 
+    p.name AS standardized_payee,
+    t.description
+FROM 
+    transactions t
+LEFT JOIN 
+    payee_mapping pm ON t.payee_id = pm.id
+LEFT JOIN 
+    payees p ON pm.payee_standard_id = p.id;
+```
+
+---
+
+## Additional Notes
+
+- Make sure to save the database file regularly as you build and populate it.
+- If you need to add more payees or categories, you can simply use the **SQL tab** to insert them as needed.
+- You can always modify the structure of the database by using `ALTER TABLE` commands if your requirements change (e.g., adding new columns or constraints).
+
+---
+
+This README should help you get started with your personal finance database project using DB Browser for SQLite. As you add more data, you can expand on this structure by introducing new tables or views for enhanced functionality.</sql><sql name="Transactions">CREATE TABLE transactions (
+    id INTEGER PRIMARY KEY,
+    transaction_date DATE NOT NULL,
+    total_amount REAL NOT NULL,
+    payee_id INTEGER,
+    category_id INTEGER,
+    account_id INTEGER,
+    description TEXT,
+    FOREIGN KEY (payee_id) REFERENCES payees(id),
+    FOREIGN KEY (category_id) REFERENCES categories(id),
+    FOREIGN KEY (account_id) REFERENCES accounts(id)
+);
+
+
+</sql><sql name="Payees">CREATE TABLE payees (
+    id INTEGER PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL
+);
+
+CREATE TABLE payee_mapping (
+    id INTEGER PRIMARY KEY,
+    payee_standard_id INTEGER NOT NULL,  -- The standardized payee
+    payee_variant TEXT NOT NULL UNIQUE,  -- The variant payee name
+    FOREIGN KEY (payee_standard_id) REFERENCES payees(id)
+);</sql><sql name="Accounts">CREATE TABLE accounts (
+    id INTEGER PRIMARY KEY,
+    name TEXT UNIQUE NOT NULL,
+    type TEXT NOT NULL,  -- e.g., Savings, Checking, Credit
+    institution TEXT     -- New column for financial institution
+);
+
+</sql><current_tab id="0"/></tab_sql></sqlb_project>

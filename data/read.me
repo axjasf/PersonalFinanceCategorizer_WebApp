@@ -1,0 +1,101 @@
+Here’s a more developer-focused README that captures what you’ve done so far, the rationale behind each step, how everything relates, and a roadmap for what’s next:
+
+---
+
+# Personal Finance Database - Developer Notes
+
+## Overview
+
+This SQLite database is designed to track personal financial transactions, with flexibility for handling multiple payee names, categories, and accounts. The main goals are to:
+1. Normalize payee names across transactions (e.g., mapping “Amazon Grocery” and “Amazon.de” to “Amazon”).
+2. Categorize transactions across different expense types (e.g., “Groceries”, “Utilities”) with support for hierarchical categories.
+3. Track which financial account was used for each transaction.
+
+## Current Structure and Rationale
+
+### 1. Transactions Table (`transactions`)
+- **Purpose**: Stores the core data for each financial transaction.
+- **Key Fields**:
+  - `transaction_date`: The date of the transaction.
+  - `total_amount`: The amount of money involved.
+  - `payee_id`: Links to the `payees` table for the entity where the transaction occurred.
+  - `category_id`: Links to the `categories` table for classification of expenses.
+  - `account_id`: Links to the `accounts` table for tracking which financial account was used.
+- **Rationale**: This table is the heart of the system. It references `payees`, `categories`, and `accounts` via foreign keys to normalize the data and avoid redundant information.
+
+### 2. Payees Table (`payees`)
+- **Purpose**: Stores standardized payee names.
+- **Key Field**:
+  - `name`: The standard name for each payee (e.g., "Amazon", "Starbucks").
+- **Rationale**: By standardizing payee names, we can avoid inconsistencies when logging transactions from different sources.
+
+### 3. Payee Mapping Table (`payee_mapping`)
+- **Purpose**: Maps payee name variations to a single standardized payee in `payees`.
+- **Key Fields**:
+  - `payee_standard_id`: Links to `payees`, pointing to the standard payee.
+  - `payee_variant`: The variant of the payee name that should map to the standard one (e.g., "Amazon Grocery", "Amazon.de").
+- **Rationale**: This handles the problem of multiple variations of the same payee name across different transactions. The main idea is to keep transactions linked to the `payees` table via this mapping.
+
+### 4. Categories Table (`categories`)
+- **Purpose**: Categorizes transactions into different types like "Groceries", "Entertainment", and supports hierarchical relationships (e.g., "Groceries" as a subcategory of "Food").
+- **Key Fields**:
+  - `name`: The name of the category.
+  - `parent_id`: Allows a category to reference another category as its parent, enabling hierarchical categorization.
+- **Rationale**: Categories help with budgeting and analysis. The parent-child relationship lets me track broader categories like "Food" with subcategories like "Groceries" and "Restaurants."
+
+### 5. Accounts Table (`accounts`)
+- **Purpose**: Tracks which financial accounts (e.g., checking accounts, credit cards) were used for each transaction.
+- **Key Fields**:
+  - `name`: The name of the account (e.g., "Chase Checking").
+  - `type`: The type of account (e.g., "Checking", "Credit").
+  - `institution`: The financial institution managing the account (e.g., "Chase", "Visa").
+- **Rationale**: Different accounts are used for transactions, and this table helps track those, especially for reconciliation purposes.
+
+---
+
+## Current SQL Structure
+
+### Tables Created So Far:
+1. `transactions` (Core transaction details, references payees, categories, and accounts)
+2. `payees` (Stores standard payee names)
+3. `payee_mapping` (Maps payee name variants to the standard payee)
+4. `categories` (Categorizes transactions, supports hierarchy)
+5. `accounts` (Tracks financial accounts and institutions)
+
+---
+
+## Next Steps
+
+### 1. **Handling Transaction Splits**:
+- **Problem**: Some transactions need to be split into multiple categories (e.g., a grocery run where $70 goes to "Groceries" and $30 to "Household Supplies").
+- **Solution**: I need to either create a `transaction_splits` table or modify the `transactions` table to allow for split entries. Using a separate `transaction_splits` table is likely better for scalability and normalization.
+  
+### 2. **Database Views for Simplification**:
+- **Goal**: Create views to encapsulate complex joins (e.g., joining `transactions` with `payees` and `payee_mapping` to always return standardized payees). This will simplify queries throughout the app.
+  
+### 3. **Reporting and Aggregation**:
+- **Problem**: I'll need to aggregate and summarize data for reporting (e.g., total expenses by category or payee).
+- **Solution**: Start by building SQL queries for common reports, then potentially expand with additional views or summary tables for performance optimization.
+
+---
+
+## Roadmap
+
+### Immediate Priorities:
+1. **Transaction Splits**: Design and implement a system to handle transactions that need to be categorized across multiple categories.
+2. **Views**: Build views that simplify querying for transactions with mapped payees, categorized expenses, and account data.
+
+### Future Enhancements:
+- **Tagging System**: Add tags to transactions to allow for more flexible classification (e.g., tagging expenses related to "Vacation 2024").
+- **Recurring Transactions**: Implement a system to track recurring transactions, like subscriptions or rent payments.
+
+---
+
+## What’s Next?
+
+1. **Transaction Splits**: Create a `transaction_splits` table to handle multi-category transactions without cluttering the main `transactions` table.
+2. **View Creation**: Define views to abstract complex SQL logic, especially for joining `payees` and `payee_mapping`.
+
+---
+
+This README should help me quickly recall the architecture decisions, rationale behind each component, and what’s next on the development plan.
