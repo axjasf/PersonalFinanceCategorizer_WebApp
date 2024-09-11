@@ -1,4 +1,4 @@
-CREATE VIEW transaction_with_splits AS
+CREATE VIEW vw_transactions_with_splits AS
 SELECT 
     t.id AS transaction_id,
     t.transaction_date,

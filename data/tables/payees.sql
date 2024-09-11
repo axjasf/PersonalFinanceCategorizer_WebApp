@@ -3,7 +3,7 @@ CREATE TABLE payees (
     name TEXT UNIQUE NOT NULL
 );
 
-CREATE TABLE payee_mapping (
+CREATE TABLE payee_variants (
     id INTEGER PRIMARY KEY,
     payee_standard_id INTEGER NOT NULL,  -- The standardized payee
     payee_variant TEXT NOT NULL UNIQUE,  -- The variant payee name
