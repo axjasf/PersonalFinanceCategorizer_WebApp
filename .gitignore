@@ -35,3 +35,4 @@ __pycache__/
 token.pickle
 token.json
 credentials.json
+data/personalfinance.db
