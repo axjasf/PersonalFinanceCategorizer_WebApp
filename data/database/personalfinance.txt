@@ -1,0 +1,80 @@
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS "accounts" (
+	"id"	INTEGER,
+	"name"	TEXT NOT NULL UNIQUE,
+	"type"	TEXT NOT NULL,
+	"institution"	TEXT,
+	PRIMARY KEY("id")
+);
+CREATE TABLE IF NOT EXISTS "categories" (
+	"id"	INTEGER,
+	"name"	TEXT NOT NULL UNIQUE,
+	"parent_id"	INTEGER,
+	PRIMARY KEY("id"),
+	FOREIGN KEY("parent_id") REFERENCES "categories"("id")
+);
+CREATE TABLE IF NOT EXISTS "payee_variants" (
+	"id"	INTEGER,
+	"payee_standard_id"	INTEGER NOT NULL,
+	"payee_variant"	TEXT NOT NULL UNIQUE,
+	PRIMARY KEY("id"),
+	FOREIGN KEY("payee_standard_id") REFERENCES "payees"("id")
+);
+CREATE TABLE IF NOT EXISTS "payees" (
+	"id"	INTEGER,
+	"name"	TEXT NOT NULL UNIQUE,
+	PRIMARY KEY("id")
+);
+CREATE TABLE IF NOT EXISTS "transaction_splits" (
+	"id"	INTEGER,
+	"transaction_id"	INTEGER NOT NULL,
+	"category_id"	INTEGER NOT NULL,
+	"split_amount"	REAL NOT NULL,
+	"split_index"	INTEGER,
+	PRIMARY KEY("id"),
+	FOREIGN KEY("category_id") REFERENCES "categories"("id"),
+	FOREIGN KEY("transaction_id") REFERENCES "transactions"("id")
+);
+CREATE TABLE IF NOT EXISTS "transactions" (
+	"id"	INTEGER,
+	"transaction_date"	DATE NOT NULL,
+	"total_amount"	REAL NOT NULL,
+	"payee_id"	INTEGER,
+	"category_id"	INTEGER,
+	"account_id"	INTEGER,
+	"description"	TEXT,
+	PRIMARY KEY("id"),
+	FOREIGN KEY("account_id") REFERENCES "accounts"("id"),
+	FOREIGN KEY("category_id") REFERENCES "categories"("id"),
+	FOREIGN KEY("payee_id") REFERENCES "payees"("id")
+);
+CREATE VIEW vw_payees_with_variants AS
+SELECT 
+    pv.id AS variant_id,
+    p.name AS standard_payee_name,
+    pv.payee_variant AS variant_payee_name
+FROM 
+    payee_variants pv
+JOIN 
+    payees p ON pv.payee_standard_id = p.id;
+CREATE VIEW vw_transactions_with_splits AS
+SELECT 
+    t.id AS transaction_id,
+    t.transaction_date,
+    t.total_amount,
+    ts.split_amount,
+    ts.split_index,
+    c.name AS category_name,
+    p.name AS payee_name,
+    a.name AS account_name
+FROM 
+    transactions t
+LEFT JOIN 
+    transaction_splits ts ON t.id = ts.transaction_id
+LEFT JOIN 
+    categories c ON ts.category_id = c.id
+LEFT JOIN 
+    payees p ON t.payee_id = p.id
+LEFT JOIN 
+    accounts a ON t.account_id = a.id;
+COMMIT;
