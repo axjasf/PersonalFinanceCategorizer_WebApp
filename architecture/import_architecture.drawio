@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-09-11T23:47:36.003Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" etag="ni9p3t-S1TiDg8H47PMK" version="22.1.17" type="github" pages="2">
+<mxfile host="app.diagrams.net" modified="2024-09-12T00:37:06.354Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" etag="1xI--0NVwnBMgNqRtuGR" version="22.1.17" type="github" pages="2">
   <diagram name="Page-1" id="JLV0uFSh_k2bjosw7qAf">
     <mxGraphModel dx="794" dy="492" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -17,19 +17,19 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="uNpmv1b55_jTAVhKI0HQ-2" value="Check Payee Description against Payee Variants" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="220" y="40" width="120" height="60" as="geometry" />
+          <mxGeometry x="40" y="120" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="p2tG2rBm_FUyqW6Xfn4v-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="uNpmv1b55_jTAVhKI0HQ-4" target="p2tG2rBm_FUyqW6Xfn4v-1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="uNpmv1b55_jTAVhKI0HQ-4" value="Assign Payee ID to Transaction" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="410" y="40" width="120" height="60" as="geometry" />
+          <mxGeometry x="40" y="210" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="uNpmv1b55_jTAVhKI0HQ-6" value="Flag Payee for Review" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="200" y="150" width="120" height="60" as="geometry" />
+          <mxGeometry x="320" y="120" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="p2tG2rBm_FUyqW6Xfn4v-1" value="Mark Transaction as done?" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="610" y="40" width="120" height="60" as="geometry" />
+          <mxGeometry x="40" y="290" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
