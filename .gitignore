@@ -37,3 +37,4 @@ token.json
 credentials.json
 data/personalfinance.db
 data/tables/pf.db
+data/tables/personalfinance.db
