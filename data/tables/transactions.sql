@@ -17,6 +17,7 @@ CREATE TABLE transaction_splits (
     category_id INTEGER NOT NULL,      -- Category for this split
     split_amount REAL NOT NULL,        -- Amount for this category
     split_index INTEGER,               -- Order in which the split was inserted
+    description TEXT,                  -- Description for this split
     FOREIGN KEY (transaction_id) REFERENCES transactions(id),
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );

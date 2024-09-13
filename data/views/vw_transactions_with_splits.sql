@@ -5,6 +5,7 @@ SELECT
     t.total_amount,
     ts.split_amount,
     ts.split_index,
+    ts.description AS split_description,
     c.name AS category_name,
     p.name AS payee_name,
     a.name AS account_name
