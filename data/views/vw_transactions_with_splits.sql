@@ -1,14 +1,14 @@
+-- View: Transactions with Splits
 CREATE VIEW vw_transactions_with_splits AS
 SELECT 
     t.id AS transaction_id,
     t.transaction_date,
-    t.total_amount,
-    ts.split_amount,
-    ts.split_index,
-    ts.description AS split_description,
+    t.amount AS transaction_amount,
+    ts.allocated_amount AS split_amount,
     c.name AS category_name,
     p.name AS payee_name,
-    a.name AS account_name
+    a.name AS account_name,
+    t.description
 FROM 
     transactions t
 LEFT JOIN 
@@ -19,3 +19,4 @@ LEFT JOIN
     payees p ON t.payee_id = p.id
 LEFT JOIN 
     accounts a ON t.account_id = a.id;
+
