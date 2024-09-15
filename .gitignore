@@ -38,3 +38,9 @@ credentials.json
 data/personalfinance.db
 data/tables/pf.db
 data/tables/personalfinance.db
+pf.db
+personalfinance.db
+*.db
+*.db-journal
+*.db
+*.db-journal
