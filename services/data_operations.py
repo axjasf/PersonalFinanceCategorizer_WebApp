@@ -1,3 +1,9 @@
+"""
+Core data operations for the Personal Finance Categorizer.
+Contains functions for retrieving transactions and splits from the database,
+using SQLAlchemy queries and returning pandas DataFrames.
+"""
+
 from database.db_utils import get_session
 import pandas as pd
 from sqlalchemy import text

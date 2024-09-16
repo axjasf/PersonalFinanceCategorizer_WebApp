@@ -1,3 +1,9 @@
+"""
+AgGrid rendering utility for the Personal Finance Categorizer.
+Contains a function to configure and render AgGrid tables with
+consistent settings across the application.
+"""
+
 from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode, AgGridTheme
 
 def render_aggrid(dataframe, key, height, selection_mode='multiple', update_mode=GridUpdateMode.MODEL_CHANGED, theme=AgGridTheme.STREAMLIT):

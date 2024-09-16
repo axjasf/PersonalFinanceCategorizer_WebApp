@@ -1,4 +1,9 @@
 # ui/central_screen.py
+"""
+Central Screen page for the Personal Finance Categorizer.
+Displays the main transactions overview, including a table of all transactions
+and a detailed view of splits for the selected transaction.
+"""
 import streamlit as st
 import pandas as pd
 from services.data_service import load_transactions, load_splits

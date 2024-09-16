@@ -1,3 +1,9 @@
+"""
+Data service layer for the Personal Finance Categorizer.
+Provides cached data loading functions for transactions and splits,
+acting as an intermediary between the UI and data operations.
+"""
+
 import streamlit as st
 from .data_operations import get_transactions, get_transaction_splits
 

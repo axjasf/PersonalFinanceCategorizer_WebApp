@@ -1,3 +1,9 @@
+"""
+Streamlit state management utilities for the Personal Finance Categorizer.
+Provides functions to manage and update session state variables,
+particularly for maintaining grid states across reruns.
+"""
+
 import streamlit as st
 
 def get_grid_key(key_name):

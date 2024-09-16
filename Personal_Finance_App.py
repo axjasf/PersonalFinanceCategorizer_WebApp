@@ -1,4 +1,9 @@
-# app.py
+"""
+Main entry point for the Personal Finance Categorizer application.
+This file sets up the Streamlit configuration and provides the main page layout.
+It also initializes the database and serves as the starting point for the app.
+"""
+
 import streamlit as st
 from database.db_utils import init_db
 

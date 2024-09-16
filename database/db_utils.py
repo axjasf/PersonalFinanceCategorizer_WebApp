@@ -1,4 +1,9 @@
 # database/db_utils.py
+"""
+Database utility functions for the Personal Finance Categorizer.
+Provides functions for initializing the database connection, creating sessions,
+and other database-related operations used throughout the application.
+"""
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from .models import Base

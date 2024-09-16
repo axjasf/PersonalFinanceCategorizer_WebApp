@@ -1,4 +1,9 @@
 # database/models.py
+"""
+SQLAlchemy ORM models for the Personal Finance Categorizer.
+Defines the database schema and relationships between different entities
+such as transactions, categories, payees, and accounts.
+"""
 from sqlalchemy import Column, Integer, String, Float, Date, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base

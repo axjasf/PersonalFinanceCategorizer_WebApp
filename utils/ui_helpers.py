@@ -1,3 +1,9 @@
+"""
+UI helper functions for the Personal Finance Categorizer.
+Provides utility functions for rendering AgGrid tables, formatting data,
+and other UI-related operations used across different pages of the application.
+"""
+
 from utils.ui_utils import render_aggrid
 from utils.state_utils import get_grid_key
 from st_aggrid import GridUpdateMode, AgGridTheme

@@ -1,3 +1,9 @@
+"""
+Database initialization script for the Personal Finance Categorizer.
+This script creates the necessary tables and populates them with sample data.
+It should be run once to set up the database before starting the application.
+"""
+
 import sqlite3
 import os
 from config import DATABASE_URI
