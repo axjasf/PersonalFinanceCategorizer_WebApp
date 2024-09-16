@@ -8,6 +8,9 @@ from sqlalchemy import Column, Integer, String, Float, Date, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
+# Constants
+CATEGORIES_ID = 'categories.id'
+
 Base = declarative_base()
 
 class Account(Base):
@@ -23,7 +26,7 @@ class Category(Base):
     __tablename__ = 'categories'
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=True, nullable=False)
-    parent_id = Column(Integer, ForeignKey('categories.id'), nullable=True)
+    parent_id = Column(Integer, ForeignKey(CATEGORIES_ID), nullable=True)
 
     parent = relationship('Category', remote_side=[id])
     split_transactions = relationship('SplitTransaction', back_populates='category')
@@ -53,12 +56,12 @@ class OrderItem(Base):
     id = Column(Integer, primary_key=True)
     order_id = Column(Integer, ForeignKey('orders.id'), nullable=False)
     item_description = Column(String, nullable=False)
-    category_id = Column(Integer, ForeignKey('categories.id'), nullable=False)
+    category_id = Column(Integer, ForeignKey(CATEGORIES_ID), nullable=False)
     item_price = Column(Float, nullable=False)
-    quantity = Column(Integer, default=1)
+    quantity = Column(Integer, nullable=False, default=1)
 
     order = relationship('Order', back_populates='order_items')
-    category = relationship('Category', back_populates='split_transactions')
+    category = relationship('Category')
 
 class OrderPayment(Base):
     __tablename__ = 'order_payments'
