@@ -7,13 +7,12 @@ def render_aggrid(dataframe: pd.DataFrame, key: str, height: int):
     gb.configure_side_bar()
     gridOptions = gb.build()
     
-    AgGrid(
+    return AgGrid(
         dataframe,
         gridOptions=gridOptions,
         enable_enterprise_modules=False,
         update_mode=GridUpdateMode.MODEL_CHANGED,
         theme=AgGridTheme.STREAMLIT,
         height=height,
-        fit_columns_on_grid_load=True,
         key=key
     )
