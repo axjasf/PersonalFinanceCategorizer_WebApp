@@ -34,20 +34,24 @@ def render_grid(data, custom_mappings, grid_key_prefix, height):
     )
 
 def render_transactions_grid(transactions):
+    # Select only the columns we want to display
+    display_columns = ['id', 'transaction_date', 'amount', 'payee_name', 'account_name', 'description']
+    transactions_display = transactions[display_columns]
+
     custom_mappings = {
         'id': 'ID',
         'transaction_date': 'Date',
         'amount': 'Amount',
-        'payee': 'Payee',
-        'account': 'Account',
+        'payee_name': 'Payee',
+        'account_name': 'Account',
         'description': 'Description'
     }
-    return render_grid(transactions, custom_mappings, 'transactions', 400)
+    return render_grid(transactions_display, custom_mappings, 'transactions', 400)
 
 def render_splits_grid(splits):
     custom_mappings = {
         'id': 'ID',
         'category_name': 'Category',
-        'allocated_amount': 'Allocated Amount'
+        'allocated_amount': 'Amount'
     }
     return render_grid(splits, custom_mappings, 'splits', 300)

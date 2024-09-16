@@ -4,7 +4,7 @@ from sqlalchemy import text
 
 def get_transactions():
     session = get_session()
-    query = text("SELECT * FROM transactions")
+    query = text("SELECT * FROM vw_transactions_with_details")
     result = pd.read_sql(query, session.bind)
     return result
 
