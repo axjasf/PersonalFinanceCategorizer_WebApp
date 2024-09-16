@@ -12,6 +12,9 @@ def render():
     
     # Render Transactions Table
     transactions = get_transactions()
+    st.write("Debug: Transactions DataFrame")
+    st.write(transactions)
+    
     if not transactions.empty:
         st.write("### All Transactions")
         render_aggrid(transactions, 'transactions_grid', 400)
@@ -23,6 +26,9 @@ def render():
 
     # Render Splits Table
     splits = get_all_splits()
+    st.write("Debug: Splits DataFrame")
+    st.write(splits)
+    
     if not splits.empty:
         st.write("### All Splits")
         st.write("This table shows all split transactions across all transactions.")
