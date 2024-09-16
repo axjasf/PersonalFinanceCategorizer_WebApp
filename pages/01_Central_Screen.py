@@ -24,7 +24,7 @@ st.markdown("---")
 
 # Render Splits Table for Selected Transaction
 if isinstance(selected_rows, pd.DataFrame) and not selected_rows.empty:
-    transaction_id = selected_rows.iloc[0]['id']
+    transaction_id = selected_rows.iloc[0]['Id']  # Use 'Id' with capital 'I' due to prettified column names
     
     splits = load_splits(transaction_id)
     st.write(f"### Splits for Transaction ID: {transaction_id}")
