@@ -3,7 +3,6 @@ import streamlit as st
 import pandas as pd
 from services.data_service import load_transactions, load_splits
 from utils.ui_helpers import render_transactions_grid, render_splits_grid
-from utils.state_utils import increment_grid_key
 
 st.set_page_config(page_title="Central Screen", layout="wide")
 
@@ -17,10 +16,6 @@ if not transactions.empty:
     grid_response = render_transactions_grid(transactions)
     
     selected_rows = grid_response['selected_rows']
-    
-    if st.button("Refresh Transactions"):
-        increment_grid_key('transaction_grid_key')
-        st.experimental_rerun()
 else:
     st.write("No transactions found in the database.")
 
