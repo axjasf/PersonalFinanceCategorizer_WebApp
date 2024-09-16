@@ -7,7 +7,4 @@ def load_transactions():
 
 @st.cache_data(ttl=300)
 def load_splits(transaction_id):
-    splits = get_transaction_splits(transaction_id)
-    st.write(f"Debug: load_splits called for transaction_id: {transaction_id}")
-    st.write(f"Debug: Splits data: {splits}")
-    return splits
+    return get_transaction_splits(transaction_id)
