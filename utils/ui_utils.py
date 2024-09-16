@@ -12,11 +12,11 @@ def render_aggrid(dataframe, key, height, selection_mode='multiple', update_mode
     gb.configure_side_bar()
     gb.configure_selection(selection_mode=selection_mode, use_checkbox=True)
     
-    gridOptions = gb.build()
+    grid_options = gb.build()  # Changed from gridOptions to grid_options
     
     return AgGrid(
         dataframe,
-        gridOptions=gridOptions,
+        gridOptions=grid_options,  # Changed here as well
         enable_enterprise_modules=False,
         update_mode=update_mode,
         theme=theme,
