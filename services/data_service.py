@@ -7,4 +7,5 @@ def load_transactions():
 
 @st.cache_data(ttl=300)
 def load_splits(transaction_id):
-    return get_transaction_splits(transaction_id)
+    # Convert transaction_id to int here
+    return get_transaction_splits(int(transaction_id))

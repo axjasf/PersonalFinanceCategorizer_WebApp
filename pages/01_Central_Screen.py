@@ -2,9 +2,8 @@
 import streamlit as st
 import pandas as pd
 from services.data_service import load_transactions, load_splits
-from utils.ui_utils import render_aggrid
-from utils.state_utils import get_grid_key, increment_grid_key
-from st_aggrid import GridUpdateMode, AgGridTheme
+from utils.ui_helpers import render_transactions_grid, render_splits_grid
+from utils.state_utils import increment_grid_key
 
 st.set_page_config(page_title="Central Screen", layout="wide")
 
@@ -15,16 +14,7 @@ transactions = load_transactions()
 
 if not transactions.empty:
     st.write("### All Transactions")
-    grid_key = get_grid_key('transaction_grid_key')
-    
-    grid_response = render_aggrid(
-        transactions,
-        f'transactions_grid_{grid_key}',
-        400,
-        selection_mode='single',
-        update_mode=GridUpdateMode.SELECTION_CHANGED,
-        theme=AgGridTheme.STREAMLIT
-    )
+    grid_response = render_transactions_grid(transactions)
     
     selected_rows = grid_response['selected_rows']
     
@@ -45,8 +35,7 @@ if isinstance(selected_rows, pd.DataFrame) and not selected_rows.empty:
     st.write(f"### Splits for Transaction ID: {transaction_id}")
     
     if not splits.empty:
-        grid_key = get_grid_key('splits_grid_key')
-        render_aggrid(splits, f'splits_grid_{grid_key}', 300)
+        render_splits_grid(splits)
     else:
         st.write("No splits found for the selected transaction.")
 else:

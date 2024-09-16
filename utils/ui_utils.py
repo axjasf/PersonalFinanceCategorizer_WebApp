@@ -1,14 +1,13 @@
 from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode, AgGridTheme
-import pandas as pd
 
-def render_aggrid(dataframe: pd.DataFrame, key: str, height: int, selection_mode='multiple', update_mode=GridUpdateMode.MODEL_CHANGED, theme=AgGridTheme.STREAMLIT):
+def render_aggrid(dataframe, key, height, selection_mode='multiple', update_mode=GridUpdateMode.MODEL_CHANGED, theme=AgGridTheme.STREAMLIT):
     gb = GridOptionsBuilder.from_dataframe(dataframe)
     gb.configure_pagination(paginationAutoPageSize=True)
     gb.configure_side_bar()
     gb.configure_selection(selection_mode=selection_mode, use_checkbox=True)
     gridOptions = gb.build()
     
-    grid_response = AgGrid(
+    return AgGrid(
         dataframe,
         gridOptions=gridOptions,
         enable_enterprise_modules=False,
@@ -17,5 +16,3 @@ def render_aggrid(dataframe: pd.DataFrame, key: str, height: int, selection_mode
         height=height,
         key=key
     )
-    
-    return grid_response
