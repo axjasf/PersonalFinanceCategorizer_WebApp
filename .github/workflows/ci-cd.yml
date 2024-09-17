@@ -11,18 +11,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+    
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.9'
+    
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
         pip install pytest pytest-cov
-    - name: Run tests
-      run: pytest --cov=./ --cov-report=xml --junitxml=pytest.xml
+    
+    - name: Run tests with coverage
+      run: pytest --cov=./ --cov-report=xml --cov-report=term
+    
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        args: >
+          -Dsonar.projectKey=your_project_key
+          -Dsonar.organization=your_organization
+          -Dsonar.python.coverage.reportPaths=coverage.xml
