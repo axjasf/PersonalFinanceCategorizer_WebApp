@@ -5,6 +5,7 @@
 import streamlit as st
 from services.data_service import load_accounts, create_account, modify_account, remove_account
 from utils.ui_helpers import render_accounts_grid
+from config import ACCOUNT_TYPES
 
 st.set_page_config(page_title="Account Management", layout="wide")
 
@@ -20,7 +21,7 @@ grid_response = render_accounts_grid(accounts)
 # Add new account
 st.write("### Add New Account")
 new_name = st.text_input("Account Name", key="new_account_name")
-new_type = st.selectbox("Account Type", ["Bank Account", "Credit Card", "Investment", "Other"], key="new_account_type")
+new_type = st.selectbox("Account Type", ACCOUNT_TYPES, key="new_account_type")
 new_institution = st.text_input("Financial Institution", key="new_account_institution")
 if st.button("Add Account"):
     success, message = create_account(new_name, new_type, new_institution)
@@ -36,8 +37,8 @@ if not accounts.empty:
     edit_account_id = st.selectbox("Select Account to Edit", accounts['id'].tolist(), key="edit_account_select")
     edit_account = accounts[accounts['id'] == edit_account_id].iloc[0]
     edit_name = st.text_input("Account Name", value=edit_account['name'], key="edit_account_name")
-    edit_type = st.selectbox("Account Type", ["Bank Account", "Credit Card", "Investment", "Other"], 
-                             index=["Bank Account", "Credit Card", "Investment", "Other"].index(edit_account['type']),
+    edit_type = st.selectbox("Account Type", ACCOUNT_TYPES, 
+                             index=ACCOUNT_TYPES.index(edit_account['type']),
                              key="edit_account_type")
     edit_institution = st.text_input("Financial Institution", value=edit_account['institution'], key="edit_account_institution")
     if st.button("Update Account"):
