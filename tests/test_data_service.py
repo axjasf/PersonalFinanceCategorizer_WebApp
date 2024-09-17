@@ -2,6 +2,7 @@ import pytest
 from services.data_service import load_transactions, load_splits, load_accounts, create_account
 import pandas as pd
 import streamlit as st
+import uuid
 
 class DatabaseConnectionError(Exception):
     """Raised when there's an issue connecting to the database."""
