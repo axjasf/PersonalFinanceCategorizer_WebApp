@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      contents: read
     
     steps:
     - uses: actions/checkout@v2
@@ -16,7 +19,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
+        python-version: '3.9'
     
     - name: Install dependencies
       run: |
@@ -24,28 +27,15 @@ jobs:
         pip install -r requirements.txt
         pip install pytest pytest-cov
     
-    - name: List installed packages
-      run: pip list
-    
-    - name: Run tests
+    - name: Run tests with coverage
       run: |
-        pytest --junitxml=pytest.xml || true
+        pytest --cov=./ --cov-report=xml --junitxml=pytest.xml
     
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action@v2
       if: always()
       with:
         files: pytest.xml
-    
-    - name: Display pytest version
-      run: pytest --version
-    
-    - name: Check SonarCloud Environment Variables
-      run: |
-        echo "GITHUB_TOKEN is set: ${{ secrets.GITHUB_TOKEN != '' }}"
-        echo "SONAR_TOKEN is set: ${{ secrets.SONAR_TOKEN != '' }}"
-        echo "SONAR_PROJECT_KEY is set: ${{ secrets.SONAR_PROJECT_KEY != '' }}"
-        echo "SONAR_ORGANIZATION is set: ${{ secrets.SONAR_ORGANIZATION != '' }}"
     
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
@@ -56,3 +46,4 @@ jobs:
         args: >
           -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
           -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+          -Dsonar.python.coverage.reportPaths=coverage.xml
