@@ -64,5 +64,11 @@ def init_db():
     logger.info(f"Number of transactions in the database: {count}")
     conn.close()
 
+def init_test_db():
+    # Use an in-memory SQLite database for testing
+    global DATABASE_URI
+    DATABASE_URI = 'sqlite:///:memory:'
+    init_db()
+
 if __name__ == "__main__":
     init_db()
