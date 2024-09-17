@@ -11,6 +11,10 @@ def setup_database():
     yield
     # Clean up code here if needed
 
+class InvalidAccountError(Exception):
+    """Raised when an operation is attempted on an invalid account."""
+    pass
+
 def test_get_transactions(setup_database):
     transactions = get_transactions()
     assert isinstance(transactions, pd.DataFrame)
@@ -84,9 +88,9 @@ def test_delete_account(setup_database):
     assert result.fetchone() is None
 
 def test_invalid_account_update(setup_database):
-    with pytest.raises(Exception):  # Replace with specific exception if applicable
+    with pytest.raises(InvalidAccountError):
         update_account(999, "Invalid Account", "Invalid", "Invalid Bank")
 
 def test_invalid_account_delete(setup_database):
-    with pytest.raises(Exception):  # Replace with specific exception if applicable
+    with pytest.raises(InvalidAccountError):
         delete_account(999)
