@@ -26,6 +26,13 @@ jobs:
     - name: Run tests
       run: pytest --cov=./ --cov-report=xml
     
+    - name: Check SonarCloud Environment Variables
+      run: |
+        echo "GITHUB_TOKEN is set: ${{ secrets.GITHUB_TOKEN != '' }}"
+        echo "SONAR_TOKEN is set: ${{ secrets.SONAR_TOKEN != '' }}"
+        echo "SONAR_PROJECT_KEY is set: ${{ secrets.SONAR_PROJECT_KEY != '' }}"
+        echo "SONAR_ORGANIZATION is set: ${{ secrets.SONAR_ORGANIZATION != '' }}"
+    
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
       env:
