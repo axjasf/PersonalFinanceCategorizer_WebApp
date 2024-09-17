@@ -26,14 +26,3 @@ jobs:
     
     - name: Run tests with coverage
       run: pytest --cov=./ --cov-report=xml --cov-report=term
-    
-    - name: SonarCloud Scan
-      uses: SonarSource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      with:
-        args: >
-          -Dsonar.projectKey=axjasf_PersonalFinanceCategorizer_WebApp
-          -Dsonar.organization=axjasf
-          -Dsonar.python.coverage.reportPaths=coverage.xml
