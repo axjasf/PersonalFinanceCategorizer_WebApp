@@ -61,3 +61,12 @@ def render_splits_grid(splits):
         'allocated_amount': 'Amount'
     }
     return render_grid(splits, custom_mappings, 'splits', 300)
+
+def render_accounts_grid(accounts):
+    custom_mappings = {
+        'id': 'ID',
+        'name': 'Name',
+        'type': 'Type',
+        'institution': 'Institution'
+    }
+    return render_grid(accounts, custom_mappings, 'accounts', 400)

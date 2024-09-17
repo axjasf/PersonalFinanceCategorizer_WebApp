@@ -5,3 +5,11 @@ Contains global settings such as database URI and import batch size.
 
 DATABASE_URI = 'sqlite:///data/personalfinance.db'
 IMPORT_BATCH_SIZE = 1000
+
+# Account Types
+ACCOUNT_TYPE_BANK = "Bank Account"
+ACCOUNT_TYPE_CREDIT = "Credit Card"
+ACCOUNT_TYPE_INVESTMENT = "Investment"
+ACCOUNT_TYPE_OTHER = "Other"
+
+ACCOUNT_TYPES = [ACCOUNT_TYPE_BANK, ACCOUNT_TYPE_CREDIT, ACCOUNT_TYPE_INVESTMENT, ACCOUNT_TYPE_OTHER]
