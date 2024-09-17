@@ -3,6 +3,10 @@ from services.data_service import load_transactions, load_splits, load_accounts,
 import pandas as pd
 import streamlit as st
 
+class DatabaseConnectionError(Exception):
+    """Raised when there's an issue connecting to the database."""
+    pass
+
 @pytest.fixture
 def setup_database():
     from database.db_utils import init_db
@@ -55,9 +59,9 @@ def test_load_transactions_caching(setup_database, monkeypatch):
 
 def test_database_connection_error(monkeypatch):
     def mock_get_transactions():
-        raise Exception("Database connection error")
+        raise DatabaseConnectionError("Database connection error")
     
     monkeypatch.setattr('services.data_service.get_transactions', mock_get_transactions)
     
-    with pytest.raises(Exception, match="Database connection error"):
+    with pytest.raises(DatabaseConnectionError):
         load_transactions()
