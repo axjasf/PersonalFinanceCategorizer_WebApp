@@ -1,3 +1,6 @@
+-- Drop the view if it exists
+DROP VIEW IF EXISTS vw_payees_with_variants;
+
 CREATE VIEW vw_payees_with_variants AS
 SELECT 
     pv.id AS variant_id,

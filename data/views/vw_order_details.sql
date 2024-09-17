@@ -1,4 +1,7 @@
--- View: Order Details
+-- Drop the view if it exists
+DROP VIEW IF EXISTS vw_order_details;
+
+-- Create the view
 CREATE VIEW vw_order_details AS
 SELECT
     o.order_id,

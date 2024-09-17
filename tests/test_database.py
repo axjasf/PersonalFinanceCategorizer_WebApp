@@ -25,4 +25,4 @@ def test_database_initialization():
     for col in expected_columns:
         assert col in columns, f"Column {col} is missing in accounts table. Found columns: {columns}"
 
-    print("Database initialization test passed successfully, including views.")
+    print("Database initialization test passed successfully.")

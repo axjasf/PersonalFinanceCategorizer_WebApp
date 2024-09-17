@@ -1,3 +1,7 @@
+-- Drop the view if it exists
+DROP VIEW IF EXISTS vw_transactions_with_details;
+
+-- Create the view
 CREATE VIEW vw_transactions_with_details AS
 SELECT 
     t.id,
