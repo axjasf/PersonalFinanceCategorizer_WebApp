@@ -1,3 +1,7 @@
+-- First, drop the trigger if it exists
+DROP TRIGGER IF EXISTS delete_account_cascade;
+
+-- Then, create the trigger
 CREATE TRIGGER delete_account_cascade
 BEFORE DELETE ON accounts
 FOR EACH ROW
