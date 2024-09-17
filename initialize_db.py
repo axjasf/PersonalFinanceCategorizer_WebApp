@@ -7,44 +7,61 @@ It should be run once to set up the database before starting the application.
 import sqlite3
 import os
 from config import DATABASE_URI
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def execute_sql_file(cursor, sql_file):
     with open(sql_file, 'r') as file:
         sql_script = file.read()
     cursor.executescript(sql_script)
-    print(f"Executed SQL file: {sql_file}")
+    logger.info(f"Executed SQL file: {sql_file}")
 
 def init_db():
     # Extract the database file path from the URI
     db_path = DATABASE_URI.replace('sqlite:///', '')
     
-    print(f"Attempting to connect to database at: {db_path}")
+    logger.info(f"Attempting to connect to database at: {db_path}")
     
     if not os.path.exists(os.path.dirname(db_path)):
         os.makedirs(os.path.dirname(db_path))
-        print(f"Created directory: {os.path.dirname(db_path)}")
+        logger.info(f"Created directory: {os.path.dirname(db_path)}")
 
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
-    # Execute your SQL scripts
-    execute_sql_file(cursor, 'data/tables/basic.sql')
-    execute_sql_file(cursor, 'data/tables/transactions.sql')
-    execute_sql_file(cursor, 'data/tables/orders.sql')
-    execute_sql_file(cursor, 'data/example_data/sample_basic.sql')
-    execute_sql_file(cursor, 'data/example_data/sample_transactions_and_orders.sql')
+    try:
+        # Execute table creation scripts
+        for sql_file in os.listdir('data/tables'):
+            if sql_file.endswith('.sql'):
+                execute_sql_file(cursor, os.path.join('data/tables', sql_file))
 
-    conn.commit()
-    conn.close()
+        # Execute view creation scripts
+        for sql_file in os.listdir('data/views'):
+            if sql_file.endswith('.sql'):
+                execute_sql_file(cursor, os.path.join('data/views', sql_file))
 
-    print("Database initialization complete.")
+        # Execute sample data scripts (optional, comment out if not needed)
+        for sql_file in os.listdir('data/example_data'):
+            if sql_file.endswith('.sql'):
+                execute_sql_file(cursor, os.path.join('data/example_data', sql_file))
 
-    # Verify data
+        conn.commit()
+        logger.info("Database initialization complete.")
+
+    except Exception as e:
+        logger.error(f"Error initializing database: {str(e)}")
+        conn.rollback()
+    finally:
+        conn.close()
+
+    # Verify data (optional)
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     cursor.execute("SELECT COUNT(*) FROM transactions")
     count = cursor.fetchone()[0]
-    print(f"Number of transactions in the database: {count}")
+    logger.info(f"Number of transactions in the database: {count}")
     conn.close()
 
 if __name__ == "__main__":
