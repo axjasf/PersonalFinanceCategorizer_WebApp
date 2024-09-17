@@ -1,40 +1,21 @@
+# Account Management page for the Personal Finance Categorizer.
+# This page allows users to view, add, edit, and delete accounts.
+# It interacts with the data service layer to perform CRUD operations on accounts.
+
 import streamlit as st
-import pandas as pd
-from database.db_utils import get_session
-from sqlalchemy import text
+from services.data_service import load_accounts, create_account, modify_account, remove_account
+from utils.ui_helpers import render_accounts_grid
 
-def load_accounts():
-    session = get_session()
-    query = text("SELECT * FROM accounts")
-    result = pd.read_sql(query, session.bind)
-    return result
+st.set_page_config(page_title="Account Management", layout="wide")
 
-def add_account(name, account_type, institution):
-    session = get_session()
-    query = text("INSERT INTO accounts (name, type, institution) VALUES (:name, :type, :institution)")
-    session.execute(query, {"name": name, "type": account_type, "institution": institution})
-    session.commit()
-
-def update_account(account_id, name, account_type, institution):
-    session = get_session()
-    query = text("UPDATE accounts SET name = :name, type = :type, institution = :institution WHERE id = :id")
-    session.execute(query, {"id": account_id, "name": name, "type": account_type, "institution": institution})
-    session.commit()
-
-def delete_account(account_id):
-    session = get_session()
-    query = text("DELETE FROM accounts WHERE id = :id")
-    session.execute(query, {"id": account_id})
-    session.commit()
-
-st.subheader("Account Management")
+st.title("Account Management")
 
 # Load existing accounts
 accounts = load_accounts()
 
 # Display existing accounts
 st.write("### Existing Accounts")
-st.dataframe(accounts)
+grid_response = render_accounts_grid(accounts)
 
 # Add new account
 st.write("### Add New Account")
@@ -42,9 +23,12 @@ new_name = st.text_input("Account Name", key="new_account_name")
 new_type = st.selectbox("Account Type", ["Bank Account", "Credit Card", "Investment", "Other"], key="new_account_type")
 new_institution = st.text_input("Financial Institution", key="new_account_institution")
 if st.button("Add Account"):
-    add_account(new_name, new_type, new_institution)
-    st.success("Account added successfully!")
-    st.experimental_rerun()
+    success, message = create_account(new_name, new_type, new_institution)
+    if success:
+        st.success(message)
+        st.rerun()
+    else:
+        st.error(message)
 
 # Edit account
 st.write("### Edit Account")
@@ -57,9 +41,9 @@ if not accounts.empty:
                              key="edit_account_type")
     edit_institution = st.text_input("Financial Institution", value=edit_account['institution'], key="edit_account_institution")
     if st.button("Update Account"):
-        update_account(edit_account_id, edit_name, edit_type, edit_institution)
+        modify_account(edit_account_id, edit_name, edit_type, edit_institution)
         st.success("Account updated successfully!")
-        st.experimental_rerun()
+        st.rerun()
 else:
     st.write("No accounts available to edit.")
 
@@ -68,9 +52,9 @@ st.write("### Delete Account")
 if not accounts.empty:
     delete_account_id = st.selectbox("Select Account to Delete", accounts['id'].tolist(), key="delete_account_select")
     if st.button("Delete Account"):
-        delete_account(delete_account_id)
+        remove_account(delete_account_id)
         st.success("Account deleted successfully!")
-        st.experimental_rerun()
+        st.rerun()
 else:
     st.write("No accounts available to delete.")
 
