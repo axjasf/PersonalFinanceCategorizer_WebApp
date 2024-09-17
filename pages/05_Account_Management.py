@@ -38,9 +38,9 @@ st.dataframe(accounts)
 
 # Add new account
 st.write("### Add New Account")
-new_name = st.text_input("Account Name")
-new_type = st.selectbox("Account Type", ["Bank Account", "Credit Card", "Investment", "Other"])
-new_institution = st.text_input("Financial Institution")
+new_name = st.text_input("Account Name", key="new_account_name")
+new_type = st.selectbox("Account Type", ["Bank Account", "Credit Card", "Investment", "Other"], key="new_account_type")
+new_institution = st.text_input("Financial Institution", key="new_account_institution")
 if st.button("Add Account"):
     add_account(new_name, new_type, new_institution)
     st.success("Account added successfully!")
@@ -48,22 +48,30 @@ if st.button("Add Account"):
 
 # Edit account
 st.write("### Edit Account")
-edit_account_id = st.selectbox("Select Account to Edit", accounts['id'].tolist())
-edit_account = accounts[accounts['id'] == edit_account_id].iloc[0]
-edit_name = st.text_input("Account Name", value=edit_account['name'])
-edit_type = st.selectbox("Account Type", ["Bank Account", "Credit Card", "Investment", "Other"], index=["Bank Account", "Credit Card", "Investment", "Other"].index(edit_account['type']))
-edit_institution = st.text_input("Financial Institution", value=edit_account['institution'])
-if st.button("Update Account"):
-    update_account(edit_account_id, edit_name, edit_type, edit_institution)
-    st.success("Account updated successfully!")
-    st.experimental_rerun()
+if not accounts.empty:
+    edit_account_id = st.selectbox("Select Account to Edit", accounts['id'].tolist(), key="edit_account_select")
+    edit_account = accounts[accounts['id'] == edit_account_id].iloc[0]
+    edit_name = st.text_input("Account Name", value=edit_account['name'], key="edit_account_name")
+    edit_type = st.selectbox("Account Type", ["Bank Account", "Credit Card", "Investment", "Other"], 
+                             index=["Bank Account", "Credit Card", "Investment", "Other"].index(edit_account['type']),
+                             key="edit_account_type")
+    edit_institution = st.text_input("Financial Institution", value=edit_account['institution'], key="edit_account_institution")
+    if st.button("Update Account"):
+        update_account(edit_account_id, edit_name, edit_type, edit_institution)
+        st.success("Account updated successfully!")
+        st.experimental_rerun()
+else:
+    st.write("No accounts available to edit.")
 
 # Delete account
 st.write("### Delete Account")
-delete_account_id = st.selectbox("Select Account to Delete", accounts['id'].tolist())
-if st.button("Delete Account"):
-    delete_account(delete_account_id)
-    st.success("Account deleted successfully!")
-    st.experimental_rerun()
+if not accounts.empty:
+    delete_account_id = st.selectbox("Select Account to Delete", accounts['id'].tolist(), key="delete_account_select")
+    if st.button("Delete Account"):
+        delete_account(delete_account_id)
+        st.success("Account deleted successfully!")
+        st.experimental_rerun()
+else:
+    st.write("No accounts available to delete.")
 
 st.warning("Note: Deleting an account will also delete all associated transactions and splits. This action cannot be undone.")
