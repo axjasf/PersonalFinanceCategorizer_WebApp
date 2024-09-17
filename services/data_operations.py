@@ -47,8 +47,9 @@ def add_account(name, account_type, institution):
     session = get_session()
     query = text("INSERT INTO accounts (name, type, institution) VALUES (:name, :type, :institution)")
     try:
-        session.execute(query, {"name": name, "type": account_type, "institution": institution})
+        result = session.execute(query, {"name": name, "type": account_type, "institution": institution})
         session.commit()
+        return result.lastrowid  # or some other indication of success
     except IntegrityError:
         session.rollback()
         raise AccountAlreadyExistsError(f"An account with the name '{name}' already exists.")
