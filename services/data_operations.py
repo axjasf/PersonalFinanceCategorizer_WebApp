@@ -7,16 +7,23 @@ using SQLAlchemy queries and returning pandas DataFrames.
 from database.db_utils import get_session
 import pandas as pd
 from sqlalchemy import text
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
 class AccountAlreadyExistsError(Exception):
     pass
 
+class DatabaseConnectionError(Exception):
+    """Raised when there's an issue connecting to the database."""
+    pass
+
 def get_transactions():
-    session = get_session()
-    query = text("SELECT * FROM vw_transactions_with_details")
-    result = pd.read_sql(query, session.bind)
-    return result
+    try:
+        session = get_session()
+        query = text("SELECT * FROM vw_transactions_with_details")
+        result = pd.read_sql(query, session.bind)
+        return result
+    except SQLAlchemyError as e:
+        raise DatabaseConnectionError(f"Failed to retrieve transactions: {str(e)}") from e
 
 def get_transaction_splits(transaction_id):
     session = get_session()
