@@ -1,4 +1,7 @@
--- View: Transactions with Splits
+-- Drop the view if it exists
+DROP VIEW IF EXISTS vw_transactions_with_splits;
+
+-- Create the view
 CREATE VIEW vw_transactions_with_splits AS
 SELECT 
     t.id AS transaction_id,

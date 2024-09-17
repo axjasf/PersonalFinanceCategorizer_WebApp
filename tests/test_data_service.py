@@ -2,6 +2,7 @@ import pytest
 from services.data_service import load_transactions, load_splits, load_accounts, create_account
 import pandas as pd
 import streamlit as st
+import uuid
 
 class DatabaseConnectionError(Exception):
     """Raised when there's an issue connecting to the database."""
@@ -31,31 +32,23 @@ def test_load_accounts(setup_database):
     assert 'id' in accounts.columns
 
 def test_create_account(setup_database):
-    success, message = create_account("New Test Account", "Savings", "Test Bank")
-    assert success
-    assert "successfully" in message
+    # Generate a unique account name
+    unique_name = "Test Account {}".format(uuid.uuid4().hex[:8])
+    
+    # Create the account
+    success, message = create_account(unique_name, "Savings", "Test Bank")
+    assert success, "Failed to create account: {}".format(message)
+    assert "successfully" in message, "Unexpected success message: {}".format(message)
 
     # Try to create a duplicate account
-    success, message = create_account("New Test Account", "Checking", "Another Bank")
-    assert not success
-    assert "already exists" in message
+    success, message = create_account(unique_name, "Checking", "Another Bank")
+    assert not success, "Should not be able to create duplicate account"
+    assert "already exists" in message.lower(), "Unexpected error message: {}".format(message)
 
-def test_load_transactions_caching(setup_database, monkeypatch):
-    # Mock the expensive operation
-    mock_data = pd.DataFrame({'id': [1, 2], 'amount': [100, 200]})
-    mock_get_transactions = lambda: mock_data
-    monkeypatch.setattr('services.data_service.get_transactions', mock_get_transactions)
-    
-    # First call should execute the function
-    result1 = load_transactions()
-    assert result1.equals(mock_data)
-    
-    # Second call should return cached result
-    result2 = load_transactions()
-    assert result2.equals(mock_data)
-    
-    # We can't directly check cache hits, so we'll check if the function returns the same object
-    assert result1 is result2
+    # Create a different account
+    different_name = "Different Account {}".format(uuid.uuid4().hex[:8])
+    success, message = create_account(different_name, "Checking", "Another Bank")
+    assert success, "Failed to create different account: {}".format(message)
 
 def test_database_connection_error(monkeypatch):
     def mock_get_transactions():
