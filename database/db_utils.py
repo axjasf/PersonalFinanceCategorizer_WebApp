@@ -30,7 +30,13 @@ def init_db():
                 with open(view_path, 'r') as file:
                     view_sql = file.read()
                     print(f"Executing view creation script: {sql_file}")
-                    session.execute(text(view_sql))
+                    # Split the SQL into separate statements
+                    statements = view_sql.split(';')
+                    for statement in statements:
+                        # Remove any leading/trailing whitespace and skip empty statements
+                        statement = statement.strip()
+                        if statement:
+                            session.execute(text(statement))
         
         # Commit the changes
         session.commit()
