@@ -33,22 +33,22 @@ def test_load_accounts(setup_database):
 
 def test_create_account(setup_database):
     # Generate a unique account name
-    unique_name = f"Test Account {uuid.uuid4().hex[:8]}"
+    unique_name = "Test Account {}".format(uuid.uuid4().hex[:8])
     
     # Create the account
     success, message = create_account(unique_name, "Savings", "Test Bank")
-    assert success, f"Failed to create account: {message}"
-    assert "successfully" in message, f"Unexpected success message: {message}"
+    assert success, "Failed to create account: {}".format(message)
+    assert "successfully" in message, "Unexpected success message: {}".format(message)
 
     # Try to create a duplicate account
     success, message = create_account(unique_name, "Checking", "Another Bank")
-    assert not success, f"Should not be able to create duplicate account"
-    assert "already exists" in message.lower(), f"Unexpected error message: {message}"
+    assert not success, "Should not be able to create duplicate account"
+    assert "already exists" in message.lower(), "Unexpected error message: {}".format(message)
 
     # Create a different account
-    different_name = f"Different Account {uuid.uuid4().hex[:8]}"
+    different_name = "Different Account {}".format(uuid.uuid4().hex[:8])
     success, message = create_account(different_name, "Checking", "Another Bank")
-    assert success, f"Failed to create different account: {message}"
+    assert success, "Failed to create different account: {}".format(message)
 
 def test_database_connection_error(monkeypatch):
     def mock_get_transactions():
