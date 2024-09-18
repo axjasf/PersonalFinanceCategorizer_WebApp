@@ -7,7 +7,7 @@
     "Type": "transaction_type",
     "Amount": "amount"
   },
-  "apple_credit_card": {
+  "apple_creditcard": {
     "Transaction Date": "transaction_date",
     "Clearing Date": "post_date",
     "Description": "description",

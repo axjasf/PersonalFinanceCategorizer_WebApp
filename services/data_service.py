@@ -1,6 +1,6 @@
 """
 Data service layer for the Personal Finance Categorizer.
-Provides cached data loading functions for transactions and splits,
+Provides cached data loading functions for transactions, splits, and accounts,
 acting as an intermediary between the UI and data operations.
 """
 
@@ -21,16 +21,24 @@ def load_accounts():
 
 def create_account(name, account_type, institution, bank_identifier):
     try:
-        add_account(name, account_type, institution, bank_identifier)
+        account_id = add_account(name, account_type, institution, bank_identifier)
         st.cache_data.clear()  # Clear cache after adding an account
-        return True, "Account added successfully!"
+        return True, f"Account added successfully with ID: {account_id}"
     except AccountAlreadyExistsError as e:
         return False, str(e)
 
-def modify_account(account_id, name, account_type, institution):
-    update_account(account_id, name, account_type, institution)
-    st.cache_data.clear()  # Clear cache after modifying an account
+def modify_account(account_id, name, account_type, institution, bank_identifier):
+    try:
+        update_account(account_id, name, account_type, institution, bank_identifier)
+        st.cache_data.clear()  # Clear cache after modifying an account
+        return True, "Account updated successfully"
+    except Exception as e:
+        return False, f"Failed to update account: {str(e)}"
 
 def remove_account(account_id):
-    delete_account(account_id)
-    st.cache_data.clear()  # Clear cache after removing an account
+    try:
+        delete_account(account_id)
+        st.cache_data.clear()  # Clear cache after deleting an account
+        return True, "Account deleted successfully"
+    except Exception as e:
+        return False, f"Failed to delete account: {str(e)}"
