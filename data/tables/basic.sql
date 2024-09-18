@@ -1,10 +1,13 @@
 -- Accounts Table
-CREATE TABLE accounts (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL UNIQUE,
-    type TEXT NOT NULL,
-    institution TEXT
+CREATE TABLE IF NOT EXISTS "accounts" (
+	"id"	INTEGER,
+	"name"	TEXT NOT NULL UNIQUE,
+	"type"	TEXT NOT NULL,
+	"institution"	TEXT,
+    "bank_identifier" TEXT UNIQUE,
+	PRIMARY KEY("id")
 );
+
 
 -- Categories Table
 CREATE TABLE categories (

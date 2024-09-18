@@ -6,6 +6,15 @@
     "Category": "category",
     "Type": "transaction_type",
     "Amount": "amount"
+  },
+  "apple_credit_card": {
+    "Transaction Date": "transaction_date",
+    "Clearing Date": "post_date",
+    "Description": "description",
+    "Merchant": "payee",
+    "Category": "category",
+    "Type": "transaction_type",
+    "Amount (USD)": "amount",
+    "Purchased By": "account_holder"
   }
 }
-    

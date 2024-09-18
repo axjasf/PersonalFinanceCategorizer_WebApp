@@ -19,9 +19,9 @@ def load_splits(transaction_id):
 def load_accounts():
     return get_accounts()
 
-def create_account(name, account_type, institution):
+def create_account(name, account_type, institution, bank_identifier):
     try:
-        add_account(name, account_type, institution)
+        add_account(name, account_type, institution, bank_identifier)
         st.cache_data.clear()  # Clear cache after adding an account
         return True, "Account added successfully!"
     except AccountAlreadyExistsError as e:

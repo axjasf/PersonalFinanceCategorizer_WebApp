@@ -23,8 +23,10 @@ st.write("### Add New Account")
 new_name = st.text_input("Account Name", key="new_account_name")
 new_type = st.selectbox("Account Type", ACCOUNT_TYPES, key="new_account_type")
 new_institution = st.text_input("Financial Institution", key="new_account_institution")
+new_bank_identifier = st.text_input("Bank Identifier (e.g., 'chase', 'apple')", key="new_account_bank_identifier")
+
 if st.button("Add Account"):
-    success, message = create_account(new_name, new_type, new_institution)
+    success, message = create_account(new_name, new_type, new_institution, new_bank_identifier)
     if success:
         st.success(message)
         st.rerun()

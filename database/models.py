@@ -19,6 +19,7 @@ class Account(Base):
     name = Column(String, unique=True, nullable=False)
     type = Column(String, nullable=False)
     institution = Column(String)
+    bank_identifier = Column(String, unique=True)
 
     transactions = relationship('Transaction', back_populates='account')
 

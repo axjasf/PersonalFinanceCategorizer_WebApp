@@ -43,16 +43,21 @@ def get_accounts():
     result = pd.read_sql(query, session.bind)
     return result
 
-def add_account(name, account_type, institution):
+def add_account(name, account_type, institution, bank_identifier):
     session = get_session()
-    query = text("INSERT INTO accounts (name, type, institution) VALUES (:name, :type, :institution)")
+    query = text("INSERT INTO accounts (name, type, institution, bank_identifier) VALUES (:name, :type, :institution, :bank_identifier)")
     try:
-        result = session.execute(query, {"name": name, "type": account_type, "institution": institution})
+        result = session.execute(query, {
+            "name": name, 
+            "type": account_type, 
+            "institution": institution,
+            "bank_identifier": bank_identifier
+        })
         session.commit()
         return result.lastrowid  # or some other indication of success
     except IntegrityError:
         session.rollback()
-        raise AccountAlreadyExistsError(f"An account with the name '{name}' already exists.")
+        raise AccountAlreadyExistsError(f"An account with the name '{name}' or bank identifier '{bank_identifier}' already exists.")
 
 def update_account(account_id, name, account_type, institution):
     session = get_session()
