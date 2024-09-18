@@ -19,21 +19,23 @@ def load_splits(transaction_id):
 def load_accounts():
     return get_accounts()
 
-def create_account(name, account_type, institution, bank_identifier):
+def create_account(name, account_type, institution):
+    bank_identifier = suggest_bank_identifier(institution, account_type)
     try:
         account_id = add_account(name, account_type, institution, bank_identifier)
         st.cache_data.clear()  # Clear cache after adding an account
-        return True, f"Account added successfully with ID: {account_id}"
+        return True, f"Account added successfully with ID: {account_id}", bank_identifier
     except AccountAlreadyExistsError as e:
-        return False, str(e)
+        return False, str(e), bank_identifier
 
-def modify_account(account_id, name, account_type, institution, bank_identifier):
+def modify_account(account_id, name, account_type, institution):
+    bank_identifier = suggest_bank_identifier(institution, account_type)
     try:
         update_account(account_id, name, account_type, institution, bank_identifier)
         st.cache_data.clear()  # Clear cache after modifying an account
-        return True, "Account updated successfully"
+        return True, "Account updated successfully", bank_identifier
     except Exception as e:
-        return False, f"Failed to update account: {str(e)}"
+        return False, f"Failed to update account: {str(e)}", bank_identifier
 
 def remove_account(account_id):
     try:
@@ -42,3 +44,6 @@ def remove_account(account_id):
         return True, "Account deleted successfully"
     except Exception as e:
         return False, f"Failed to delete account: {str(e)}"
+
+def suggest_bank_identifier(institution, account_type):
+    return f"{institution.lower().replace(' ', '')}_{account_type.lower().replace(' ', '')}"
