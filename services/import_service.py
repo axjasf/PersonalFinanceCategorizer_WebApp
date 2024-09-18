@@ -37,15 +37,13 @@ def process_import(file, account_name: str, field_mappings: Dict[str, Dict[str, 
     
     return mapped_df, validation_errors
 
-def insert_transactions(df: pd.DataFrame) -> bool:
+def insert_transactions(df):
+    session = get_session()
     try:
-        session = get_session()
-        # Implement the logic to insert transactions into the database
-        # This is a placeholder and needs to be implemented based on your database schema
         df.to_sql('transactions', session.bind, if_exists='append', index=False)
         session.commit()
         return True
-    except SQLAlchemyError as e:
+    except Exception as e:
         session.rollback()
         raise DatabaseError(f"Failed to insert transactions: {str(e)}")
 
