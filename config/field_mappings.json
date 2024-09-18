@@ -1,0 +1,11 @@
+{
+  "chase": {
+    "Transaction Date": "transaction_date",
+    "Post Date": "post_date",
+    "Description": "description",
+    "Category": "category",
+    "Type": "transaction_type",
+    "Amount": "amount"
+  }
+}
+    
