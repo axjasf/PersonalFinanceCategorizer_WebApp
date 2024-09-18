@@ -21,22 +21,14 @@ grid_response = render_accounts_grid(accounts)
 # Add new account
 st.write("### Add New Account")
 new_name = st.text_input("Account Name", key="new_account_name")
-new_type = st.selectbox("Account Type", ACCOUNT_TYPES, key="new_account_type")
 new_institution = st.text_input("Financial Institution", key="new_account_institution")
+new_type = st.selectbox("Account Type", ACCOUNT_TYPES, key="new_account_type")
 
-# Suggest bank identifier when institution or account type changes
-suggested_identifier, st.session_state['prev_institution'], st.session_state['prev_type'] = handle_bank_identifier_suggestion(
-    new_institution,
-    new_type,
-    st.session_state.get('prev_institution'),
-    st.session_state.get('prev_type'),
-    st.session_state.get('suggested_identifier', '')
-)
+suggested_identifier = suggest_bank_identifier(new_institution, new_type)
 
 new_bank_identifier = st.text_input("Bank Identifier", 
                                     value=suggested_identifier,
                                     key="new_account_bank_identifier")
-st.session_state['suggested_identifier'] = new_bank_identifier
 
 if st.button("Add Account"):
     success, message, _ = create_account(new_name, new_type, new_institution)
