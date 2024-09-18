@@ -4,9 +4,11 @@ from services.import_service import process_import, insert_transactions, Databas
 from services.data_service import load_accounts
 from utils.ui_helpers import render_grid
 
-st.set_page_config(page_title="Import Transactions", page_icon="📥", layout="wide")
+IMPORT_TRANSACTIONS_TITLE = "Import Transactions"
 
-st.title("Import Transactions")
+st.set_page_config(page_title=IMPORT_TRANSACTIONS_TITLE, page_icon="📥", layout="wide")
+
+st.title(IMPORT_TRANSACTIONS_TITLE)
 
 # File uploader
 uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
@@ -38,7 +40,7 @@ if uploaded_file is not None:
                 st.write(error)
         else:
             # Import button
-            if st.button("Import Transactions"):
+            if st.button(IMPORT_TRANSACTIONS_TITLE):
                 try:
                     success = insert_transactions(mapped_df)
                     if success:
