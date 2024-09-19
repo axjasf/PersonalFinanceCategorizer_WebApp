@@ -9,7 +9,7 @@ from .data_operations import get_transactions, get_transaction_splits, get_accou
 from database.db_utils import get_session
 from database.models import Payee, PayeeVariant
 from sqlalchemy.orm.exc import NoResultFound
-
+from utils.ui_helpers import suggest_bank_identifier
 
 @st.cache_data(ttl=300)
 def load_transactions():
