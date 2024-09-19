@@ -70,3 +70,6 @@ def render_accounts_grid(accounts):
         'institution': 'Institution'
     }
     return render_grid(accounts, custom_mappings, 'accounts', 400)
+
+def suggest_bank_identifier(institution, account_type):
+    return f"{institution.lower().replace(' ', '_')}_{account_type.lower()}"

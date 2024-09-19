@@ -10,8 +10,6 @@ from database.db_utils import get_session
 from database.models import Payee, PayeeVariant
 from sqlalchemy.orm.exc import NoResultFound
 
-def suggest_bank_identifier(institution, account_type):
-    return f"{institution.lower().replace(' ', '_')}_{account_type.lower()}"
 
 @st.cache_data(ttl=300)
 def load_transactions():
