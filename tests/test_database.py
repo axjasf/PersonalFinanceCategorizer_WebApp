@@ -21,7 +21,7 @@ def test_database_initialization():
     # Test if accounts table has correct columns
     result = session.execute(text("PRAGMA table_info(accounts)"))
     columns = [row[1] for row in result.fetchall()]  # column name is at index 1
-    expected_columns = ['id', 'name', 'type', 'institution']
+    expected_columns = ['id', 'name', 'type', 'institution', 'bank_identifier']
     for col in expected_columns:
         assert col in columns, f"Column {col} is missing in accounts table. Found columns: {columns}"
 

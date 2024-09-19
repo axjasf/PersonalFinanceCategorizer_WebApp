@@ -19,6 +19,7 @@ class Account(Base):
     name = Column(String, unique=True, nullable=False)
     type = Column(String, nullable=False)
     institution = Column(String)
+    bank_identifier = Column(String, unique=True)
 
     transactions = relationship('Transaction', back_populates='account')
 
@@ -38,6 +39,7 @@ class Payee(Base):
 
     transactions = relationship('Transaction', back_populates='payee')
     orders = relationship('Order', back_populates='payee')
+    variants = relationship('PayeeVariant', back_populates='payee')
 
 class Order(Base):
     __tablename__ = 'orders'
@@ -95,3 +97,11 @@ class SplitTransaction(Base):
     
     transaction = relationship('Transaction', back_populates='split_transactions')
     category = relationship('Category', back_populates='split_transactions')
+
+class PayeeVariant(Base):
+    __tablename__ = 'payee_variants'
+    id = Column(Integer, primary_key=True)
+    name = Column(String, unique=True, nullable=False)
+    payee_id = Column(Integer, ForeignKey('payees.id'), nullable=False)
+
+    payee = relationship('Payee', back_populates='variants')

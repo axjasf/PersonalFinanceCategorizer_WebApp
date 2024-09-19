@@ -5,3 +5,4 @@ plotly
 streamlit-aggrid
 pytest
 pytest-cov
+pytest-mock
