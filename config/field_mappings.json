@@ -1,5 +1,5 @@
 {
-  "chase_credit": {
+  "chase_creditcard": {
     "fields": {
       "transaction_date": "Transaction Date",
       "amount": "Amount",

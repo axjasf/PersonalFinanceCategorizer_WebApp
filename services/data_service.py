@@ -70,13 +70,8 @@ def get_or_create_payee(payee_name: str) -> int:
             payee = session.query(Payee).filter_by(name=payee_name).one()
             return payee.id
         except NoResultFound:
-            # If not found, create a new payee and variant
+            # If not found, create a new payee
             new_payee = Payee(name=payee_name)
             session.add(new_payee)
-            session.flush()  # This will assign an ID to new_payee
-            
-            new_variant = PayeeVariant(name=payee_name, payee_id=new_payee.id)
-            session.add(new_variant)
-            
             session.commit()
             return new_payee.id
