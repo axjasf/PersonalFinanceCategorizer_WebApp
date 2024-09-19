@@ -111,6 +111,11 @@ class TestAccounts:
         with pytest.raises(AccountAlreadyExistsError):
             update_account(account_id1, new_name, new_type, new_institution, unique_identifier2)
 
+        # Test updating a non-existent account
+        non_existent_id = max(account_id1, account_id2) + 1  # An ID that doesn't exist
+        with pytest.raises(ValueError, match=f"No account found with id: {non_existent_id}"):
+            update_account(non_existent_id, "New Name", "Checking", "New Bank", "new_identifier")
+
     def test_delete_account(self, setup_database):
         # First, add an account
         unique_name = f"Test Account {uuid.uuid4().hex[:8]}"
