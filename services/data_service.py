@@ -6,6 +6,9 @@ acting as an intermediary between the UI and data operations.
 
 import streamlit as st
 from .data_operations import get_transactions, get_transaction_splits, get_accounts, add_account, update_account, delete_account, AccountAlreadyExistsError
+from database.db_utils import get_session
+from database.models import Payee, PayeeVariant
+from sqlalchemy.orm.exc import NoResultFound
 
 def suggest_bank_identifier(institution, account_type):
     return f"{institution.lower().replace(' ', '_')}_{account_type.lower()}"
@@ -54,3 +57,26 @@ def handle_bank_identifier_suggestion(institution, account_type, prev_institutio
     else:
         suggested_identifier = prev_suggested_identifier
     return suggested_identifier, institution, account_type
+
+def get_or_create_payee(payee_name: str) -> int:
+    session = get_session()
+    try:
+        # First, check if this is a known variant
+        payee_variant = session.query(PayeeVariant).filter_by(name=payee_name).one()
+        return payee_variant.payee_id
+    except NoResultFound:
+        # If not a known variant, check if it's an exact match for a payee
+        try:
+            payee = session.query(Payee).filter_by(name=payee_name).one()
+            return payee.id
+        except NoResultFound:
+            # If not found, create a new payee and variant
+            new_payee = Payee(name=payee_name)
+            session.add(new_payee)
+            session.flush()  # This will assign an ID to new_payee
+            
+            new_variant = PayeeVariant(name=payee_name, payee_id=new_payee.id)
+            session.add(new_variant)
+            
+            session.commit()
+            return new_payee.id

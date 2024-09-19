@@ -1,20 +1,33 @@
 {
-  "chase": {
-    "Transaction Date": "transaction_date",
-    "Post Date": "post_date",
-    "Description": "description",
-    "Category": "category",
-    "Type": "transaction_type",
-    "Amount": "amount"
+  "chase_credit": {
+    "fields": {
+      "transaction_date": "Transaction Date",
+      "amount": "Amount",
+      "description": "Description",
+      "payee": "Description"
+    },
+    "needs_currency_conversion": false
+  },
+  "commerzbank_checking": {
+    "fields": {
+      "transaction_date": "Transaction date",
+      "post_date": "Value date",
+      "description": "Description",
+      "amount": "Amount",
+      "currency": "Currency",
+      "payee": "Description"
+    },
+    "needs_currency_conversion": true,
+    "from_currency": "EUR",
+    "to_currency": "USD"
   },
   "apple_creditcard": {
-    "Transaction Date": "transaction_date",
-    "Clearing Date": "post_date",
-    "Description": "description",
-    "Merchant": "payee",
-    "Category": "category",
-    "Type": "transaction_type",
-    "Amount (USD)": "amount",
-    "Purchased By": "account_holder"
+    "fields": {
+      "transaction_date": "Transaction Date",
+      "amount": "Amount (USD)",
+      "payee": "Merchant",
+      "description": "Description"
+    },
+    "needs_currency_conversion": false
   }
 }
