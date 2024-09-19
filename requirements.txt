@@ -1,5 +1,5 @@
 streamlit==1.22.0
 pandas
-sqlalchemy==2.0.19
+sqlalchemy
 streamlit-aggrid==0.3.4
 python-dotenv==1.0.0
