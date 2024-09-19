@@ -67,15 +67,21 @@ def update_account(account_id, name, account_type, institution, bank_identifier)
     account = session.query(Account).get(account_id)
     if not account:
         raise ValueError(f"No account found with id: {account_id}")
+    
+    # Check if the new name or bank identifier already exists for a different account
+    existing_account = session.query(Account).filter(
+        (Account.name == name) | (Account.bank_identifier == bank_identifier),
+        Account.id != account_id
+    ).first()
+    if existing_account:
+        raise AccountAlreadyExistsError(f"An account with the name '{name}' or bank identifier '{bank_identifier}' already exists.")
+    
     account.name = name
     account.type = account_type
     account.institution = institution
     account.bank_identifier = bank_identifier
     try:
         session.commit()
-    except IntegrityError:
-        session.rollback()
-        raise AccountAlreadyExistsError(f"An account with the name '{name}' or bank identifier '{bank_identifier}' already exists.")
     except SQLAlchemyError as e:
         session.rollback()
         raise DatabaseError(f"Failed to update account: {str(e)}")
