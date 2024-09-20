@@ -68,3 +68,23 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## License
 
 This project is licensed under the MIT License.
+
+## Development Setup
+
+1. Install development dependencies:
+   ```
+   pip install -r requirements-dev.txt
+   ```
+
+2. Set up pre-commit hooks:
+   ```
+   pre-commit install
+   ```
+
+3. Before committing changes, run:
+   ```
+   black .
+   flake8
+   ```
+
+   These checks will also run automatically when you try to commit.

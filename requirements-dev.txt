@@ -4,3 +4,4 @@ pytest-cov==4.1.0
 pytest-mock
 black==23.7.0
 flake8==6.0.0
+pre-commit==3.3.3
