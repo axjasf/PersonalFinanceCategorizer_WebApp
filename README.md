@@ -81,10 +81,20 @@ This project is licensed under the MIT License.
    pre-commit install
    ```
 
-3. Before committing changes, run:
+3. Code Formatting and Linting:
+   This project uses Black for code formatting and Flake8 for linting. They are configured to run automatically as pre-commit hooks. However, you can also run them manually:
+
    ```
    black .
    flake8
    ```
 
-   These checks will also run automatically when you try to commit.
+   Black will automatically format your code, while Flake8 will check for style and potential errors.
+
+4. Before committing changes:
+   The pre-commit hooks will automatically run Black and Flake8 when you attempt to commit. If there are any issues, the commit will be aborted, allowing you to fix the problems before trying again.
+
+   Note: If Black makes any changes, you'll need to stage those changes and attempt the commit again.
+
+5. Continuous Integration:
+   The project is set up with GitHub Actions to run Black and Flake8 on every push and pull request to ensure code quality and consistency.
