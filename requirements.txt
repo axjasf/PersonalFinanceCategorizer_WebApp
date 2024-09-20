@@ -1,8 +1,5 @@
 streamlit==1.22.0
 pandas
 sqlalchemy
-plotly
-streamlit-aggrid
-pytest
-pytest-cov
-pytest-mock
+streamlit-aggrid==0.3.4
+python-dotenv==1.0.0

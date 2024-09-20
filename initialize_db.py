@@ -12,18 +12,20 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 def execute_sql_file(cursor, sql_file):
-    with open(sql_file, 'r') as file:
+    with open(sql_file, "r") as file:
         sql_script = file.read()
     cursor.executescript(sql_script)
     logger.info(f"Executed SQL file: {sql_file}")
 
+
 def init_db():
     # Extract the database file path from the URI
-    db_path = DATABASE_URI.replace('sqlite:///', '')
-    
+    db_path = DATABASE_URI.replace("sqlite:///", "")
+
     logger.info(f"Attempting to connect to database at: {db_path}")
-    
+
     if not os.path.exists(os.path.dirname(db_path)):
         os.makedirs(os.path.dirname(db_path))
         logger.info(f"Created directory: {os.path.dirname(db_path)}")
@@ -33,19 +35,19 @@ def init_db():
 
     try:
         # Execute table creation scripts
-        for sql_file in os.listdir('data/tables'):
-            if sql_file.endswith('.sql'):
-                execute_sql_file(cursor, os.path.join('data/tables', sql_file))
+        for sql_file in os.listdir("data/tables"):
+            if sql_file.endswith(".sql"):
+                execute_sql_file(cursor, os.path.join("data/tables", sql_file))
 
         # Execute view creation scripts
-        for sql_file in os.listdir('data/views'):
-            if sql_file.endswith('.sql'):
-                execute_sql_file(cursor, os.path.join('data/views', sql_file))
+        for sql_file in os.listdir("data/views"):
+            if sql_file.endswith(".sql"):
+                execute_sql_file(cursor, os.path.join("data/views", sql_file))
 
         # Execute sample data scripts (optional, comment out if not needed)
-        for sql_file in os.listdir('data/example_data'):
-            if sql_file.endswith('.sql'):
-                execute_sql_file(cursor, os.path.join('data/example_data', sql_file))
+        for sql_file in os.listdir("data/example_data"):
+            if sql_file.endswith(".sql"):
+                execute_sql_file(cursor, os.path.join("data/example_data", sql_file))
 
         conn.commit()
         logger.info("Database initialization complete.")
@@ -64,11 +66,13 @@ def init_db():
     logger.info(f"Number of transactions in the database: {count}")
     conn.close()
 
+
 def init_test_db():
     # Use an in-memory SQLite database for testing
     global DATABASE_URI
-    DATABASE_URI = 'sqlite:///:memory:'
+    DATABASE_URI = "sqlite:///:memory:"
     init_db()
+
 
 if __name__ == "__main__":
     init_db()

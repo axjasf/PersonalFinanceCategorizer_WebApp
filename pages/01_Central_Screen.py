@@ -19,8 +19,8 @@ transactions = load_transactions()
 if not transactions.empty:
     st.write("### All Transactions")
     grid_response = render_transactions_grid(transactions)
-    
-    selected_rows = grid_response['selected_rows']
+
+    selected_rows = grid_response["selected_rows"]
 else:
     st.write("No transactions found in the database.")
 
@@ -29,15 +29,16 @@ st.markdown("---")
 
 # Render Splits Table for Selected Transaction
 if isinstance(selected_rows, pd.DataFrame) and not selected_rows.empty:
-    transaction_id = selected_rows.iloc[0]['Id']  # Use 'Id' with capital 'I' due to prettified column names
-    
+    transaction_id = selected_rows.iloc[0][
+        "Id"
+    ]  # Use 'Id' with capital 'I' due to prettified column names
+
     splits = load_splits(transaction_id)
     st.write(f"### Splits for Transaction ID: {transaction_id}")
-    
+
     if not splits.empty:
         render_splits_grid(splits)
     else:
         st.write("No splits found for the selected transaction.")
 else:
     st.write("Select a transaction to view its splits.")
-
