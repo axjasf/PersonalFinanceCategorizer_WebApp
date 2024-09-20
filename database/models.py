@@ -10,6 +10,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 # Constants
 CATEGORIES_ID = "categories.id"
+PAYEES_ID = "payees.id"
 
 Base = declarative_base()
 
@@ -51,7 +52,7 @@ class Order(Base):
     order_id = Column(String, unique=True, nullable=False)
     order_date = Column(Date, nullable=False)
     total_amount = Column(Float, nullable=False)
-    payee_id = Column(Integer, ForeignKey("payees.id"), nullable=False)
+    payee_id = Column(Integer, ForeignKey(PAYEES_ID), nullable=False)
 
     payee = relationship("Payee", back_populates="orders")
     order_items = relationship("OrderItem", back_populates="order")
@@ -87,7 +88,7 @@ class Transaction(Base):
     id = Column(Integer, primary_key=True)
     transaction_date = Column(Date, nullable=False)
     amount = Column(Float, nullable=False)
-    payee_id = Column(Integer, ForeignKey("payees.id"))
+    payee_id = Column(Integer, ForeignKey(PAYEES_ID))
     account_id = Column(Integer, ForeignKey("accounts.id"))
     description = Column(String)
 
@@ -111,6 +112,6 @@ class PayeeVariant(Base):
     __tablename__ = "payee_variants"
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=True, nullable=False)
-    payee_id = Column(Integer, ForeignKey("payees.id"), nullable=False)
+    payee_id = Column(Integer, ForeignKey(PAYEES_ID), nullable=False)
 
     payee = relationship("Payee", back_populates="variants")
